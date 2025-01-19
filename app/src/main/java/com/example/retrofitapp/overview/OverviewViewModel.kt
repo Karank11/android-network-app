@@ -3,11 +3,10 @@ package com.example.retrofitapp.overview
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.retrofitapp.network.MarsApi
-import com.example.retrofitapp.network.MarsProperty
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 class OverviewViewModel: ViewModel() {
 
@@ -19,16 +18,20 @@ class OverviewViewModel: ViewModel() {
     }
 
     private fun getMarsRealEstateProperties() {
-        val getPropertiesCall = MarsApi.retrofitService.getProperties()
-        getPropertiesCall.enqueue(object  : Callback<List<MarsProperty>> {
-            override fun onResponse(call: Call<List<MarsProperty>>, response: Response<List<MarsProperty>>) {
-                _response.value = "Success: ${response.body()?.size} Mars properties retrieved!"
+        viewModelScope.launch {
+            try {
+                var getPropertiesDeferred = MarsApi.retrofitService.getProperties()
+                var listResult = getPropertiesDeferred.await()
+                _response.value = "Success: ${listResult.size} Mars properties retrieved!"
+            } catch (e: Exception) {
+                _response.value = "Failure: ${e.message}"
             }
-
-            override fun onFailure(call: Call<List<MarsProperty>>, t: Throwable) {
-                _response.value = "Failure: ${t.message}"
-            }
-        })
+        }
         _response.value = "Set the Mars API Response here!"
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelScope.cancel()
     }
 }
