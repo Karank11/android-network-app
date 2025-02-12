@@ -3,8 +3,11 @@ package com.example.retrofitapp
 import android.widget.ImageView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.retrofitapp.network.MarsProperty
+import com.example.retrofitapp.overview.PhotoGridAdapter
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
@@ -17,4 +20,10 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
                 .error(R.drawable.ic_broken_image))
             .into(imgView)
     }
+}
+
+@BindingAdapter("listData")
+fun bindRecyclerView(recyclerView: RecyclerView, data: List<MarsProperty>?) {
+    val adapter = recyclerView.adapter as PhotoGridAdapter
+    adapter.submitList(data)
 }
