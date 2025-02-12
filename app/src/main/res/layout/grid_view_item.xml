@@ -6,8 +6,8 @@
 
     <data>
         <variable
-            name="overviewViewModel"
-            type="com.example.retrofitapp.overview.OverviewViewModel" />
+            name="property"
+            type="com.example.retrofitapp.network.MarsProperty" />
     </data>
 
     <ImageView
@@ -16,7 +16,7 @@
         android:layout_height="170dp"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        android:padding="2dp"
-        app:imageUrl="@{overviewViewModel.property.imageSourceUrl}"
+        android:padding="4dp"
+        app:imageUrl="@{property.imageSourceUrl}"
         tools:src="@tools:sample/backgrounds/scenic"/>
 </layout>
