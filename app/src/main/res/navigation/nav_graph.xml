@@ -19,5 +19,9 @@
         android:id="@+id/detailFragment"
         android:name="com.example.retrofitapp.detail.DetailFragment"
         android:label="DetailFragment"
-        tools:layout="@layout/fragment_detail"/>
+        tools:layout="@layout/fragment_detail">
+        <argument
+            android:name="marsProperty"
+            app:argType="com.example.retrofitapp.network.MarsProperty" />
+    </fragment>
 </navigation>

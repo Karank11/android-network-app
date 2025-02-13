@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.retrofitapp.databinding.FragmentOverviewBinding
 
 class OverviewFragment : Fragment() {
@@ -16,7 +17,16 @@ class OverviewFragment : Fragment() {
         val viewModel =  ViewModelProvider(this).get(OverviewViewModel::class.java)
         binding.overviewViewModel = viewModel
         binding.lifecycleOwner = this
-        binding.photosGrid.adapter = PhotoGridAdapter()
+        binding.photosGrid.adapter = PhotoGridAdapter(PhotoGridAdapter.OnClickListener {
+            viewModel.displayPropertyDetails(it)
+        })
+
+        viewModel.navigateToSelectedProperty.observe(viewLifecycleOwner) {
+            if (it != null) {
+                this.findNavController().navigate(OverviewFragmentDirections.actionShowDetail(it))
+                viewModel.displayPropertyDetailsComplete()
+            }
+        }
 
         return binding.root
     }
