@@ -27,10 +27,10 @@ class PhotoGridAdapter(val onClickListener: OnClickListener): ListAdapter<MarsPr
 
     override fun onBindViewHolder(holder: MarsPropertyViewHolder, position: Int) {
         val marsProperty = getItem(position)
-        holder.bind(marsProperty)
         holder.itemView.setOnClickListener {
             onClickListener.onClick(marsProperty)
         }
+        holder.bind(marsProperty)
     }
 
     class MarsPropertyViewHolder(private var binding: GridViewItemBinding): RecyclerView.ViewHolder(binding.root) {
